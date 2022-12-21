@@ -22,7 +22,7 @@ public class PawnMultiplier {
     }
 
     static long multiply(long n1, long n2) {
-        long result = n2;
+//        long result = n2;
         long rest = 0;
 
         // as long this is not 1, if 1 then return result (which is n2)
@@ -34,7 +34,7 @@ public class PawnMultiplier {
                 n1 -= 1;
                 rest += n2;
                 System.out.printf("Multiplikator: %d | Multiplikant: %d%n", n1, n2);
-                System.out.println("Rest to add later: " + rest);
+                System.out.println("Rest to add later: " + rest); // rest will be added with the returned result
                 return multiply(n1 / 2, n2 * 2) + rest;
             }
             /*else {
@@ -69,6 +69,7 @@ public class PawnMultiplier {
         }*/
         // in the end, once n1 is 1, print 1 and the result
         System.out.printf("Multiplikator: %d | Multiplikant: %d%n", n1, n2);
-        return result;
+//        return result;
+        return n2;
     }
 }
