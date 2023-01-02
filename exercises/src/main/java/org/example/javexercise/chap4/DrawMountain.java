@@ -65,7 +65,7 @@ public class DrawMountain {
                         emptySpace += "-";
                 } else {
                     // check next position for: / - \
-                    if (i+1 > maxHeightPosition) {
+                    if (i+1 > maxHeightPosition) { // if going past maxHeightPosition then fall
                         emptySpace += "\\";
                     } else {
                         emptySpace += "/";
