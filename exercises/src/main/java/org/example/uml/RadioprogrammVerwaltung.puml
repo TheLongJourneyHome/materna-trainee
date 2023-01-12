@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+/'Radiostation o-- "*" Radiosendung : aggregation'/
+Radiostation o-- "*" Radiosendung
+Radiostation "1" -- "1..*" Mitarbeiter
+Mitarbeiter <|-- Moderator
+Mitarbeiter <|-- Redakteur
+Redakteur <|-- Chefredakteur
+Radiosendung "*" -- "1..2" Moderator
+Radiosendung "*" -- "1..*" Redakteur
+Radiosendung "*" -- "1" Chefredakteur
+
+class Radiostation {
+Radiosendung[] wochentagSchema
+Radiosendung[] wochenendSchema
+}
+
+class Radiosendung {
+Double dauer
+String thema
+}
+
+class Mitarbeiter {
+String vorname
+String zuname
+Integer personalnummer
+Integer telefondurchwahl
+}
+
+class Moderator {
+}
+
+class Redakteur {
+}
+
+class Chefredakteur {
+Integer mobiletelefonnummer
+}
+
+@enduml

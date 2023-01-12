@@ -1,0 +1,24 @@
+Modellierung in UML
+Radioprogramm-Verwaltung
+Du bist beauftragt, das Design für eine einfache Radioprogramm-Verwaltung zu erstellen.
+Es sind die Mitarbeiter der Radiostation zu erfassen, die durch ihren Vor- und Zunamen,
+ihre Personalnummer und ihre Telefondurchwahlen beschrieben werden.
+Unter den Mitarbeitern gibt es unter anderem Moderatoren und Redakteure.
+Bei den Redakteuren gibt es noch eine weitere Spezialisierung in Chefredakteur.
+Chefredakteure werden noch zusätzlich durch ihre Mobiltelefonnummer näher beschrieben und
+leiten mindestens eine Radiosendung.
+
+Radiosendungen haben eine festgelegte Dauer und ein bestimmtes Thema.
+Einer Radiosendung kann nur immer ein Chefredakteur zugewiesen sein.
+Beliebig viele Redakteure können jedoch an beliebig vielen Radiosendungen mitwirken.
+Ein Moderator kann ebenfalls viele Sendungen moderieren,
+aber zu jeder Radiosendung kann es nur maximal zwei Moderatoren geben.
+Die Radiostation hat ein Wochentagsschema und ein Wochenendschema.
+Ein Wochentagsschema besteht aus 20 Radiosendungen,
+während ein Wochenendschema aus 16 Sendungen zusammengesetzt ist.
+Radiosendungen sind entweder dem Wochentagsschema oder dem Wochenendschema zugeordnet.
+
+Modelliere diesen Sachverhalt in einem UML-Klassendiagramm.
+Triff für fehlende Angaben vernünftige Annahmen.
+Es geht nicht darum, die Daten zu persistieren.
+Es entsteht am Ende nur UML, kein Programmcode.
