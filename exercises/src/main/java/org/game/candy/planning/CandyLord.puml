@@ -9,11 +9,16 @@ Germany *-- "1" Bank : is located in
 Days "1" -- "1" Events : after Event one day passed
 CandyType -- Candy
 Tradable <|.. Candy : is tradable
-Bank <.. Days : <<instantiate>>
+Bank <.. Days : <<call>>
+Candy <.. Location : <<call>>
 
 note "When a day passes Bank-interest-functions will trigger" as Note
 Bank .. Note
 Note .. Days
+
+note "Location sets Candy price" as Note2
+Candy .. Note2
+Note2 .. Location
 
 'Countries
 Location <|-- Germany
@@ -31,9 +36,10 @@ Candy <|-- Pocky
 Candy <|-- Skittles
 
 
+
 interface Tradable {
-setPrice(int price): void
-getPrice(): Integer
++setPrice(int price): void
++getPrice(): Integer
 }
 
 enum CandyType {
@@ -44,86 +50,121 @@ OTHER
 }
 
 abstract class Candy {
-name: String
-price: Integer
-weight: Integer = 1
-candyType: CandyType
+-name: String
+-price: Integer
+-weight: Integer = 1
+-priceRange /'Random * range + minimum'/
+-candyType: CandyType
+-candyPopularity: String /'{"popular", "normal", "unpopular"} -> different random price ranges'/
+
++setName(): void
++getName(): String
++getWeight(): Integer
++setCandyType(CandyType candyType): void
++getCandyType(): CandyType
++setPopularity(String popularity): void
+-setCandyPrice(String popularity): void
++getCandyPrice(): Integer
++setPriceRange()
 }
 
 abstract class Location {
-name: String
+-name: String
 /'distance: Integer'/
-position: String
-candyPopularity: String /'{"popular", "normal", "unpopular"} -> different random price ranges'/
-price: Integer /'always updates and changes depending on players location'/
-hasBank: Boolean = false
+-position: String /'eu, na, asia'/
+'-candyPopularity: String /'{"popular", "normal", "unpopular"} -> different random price ranges'/
+-travelPrice: Integer /'price to travel to location, always updates and changes depending on players location'/
+-hasBank: Boolean = false
 
-setPrice(): void
-getPrice(): Integer /'greater distance = more expensive'/
-getDistance(String location1, String location2): Integer /'check if eu && eu = close, eu && na = far...'/
++setName(): void
++getName(): String
++setPosition(): void
++getPosition(): String
++setTravelPrice(String distance): void
++getTravelPrice(): Integer /'greater distance = more expensive'/
++getDistance(String location1, String location2): String /'check if eu && eu = close, eu && na = far...'/
++hasBank(): Boolean
+'+setCandyPrice(): void
 }
 
 class Bank {
-money: Integer = 0
-loan: Integer = 0
-interestSaving: Double = 0.05 /'daily'/
-interestLoaning: Double = 0.10 /'daily'/
-candyStash: Candy[]
+-money: Integer = 0
+-loan: Integer = 0 /'cant borrow more than 2 digits greater and only when loan/debt is 0'/
+-interestSaving: Double = 0.05 /'daily'/
+-interestLoaning: Double = 0.10 /'daily'/
+-candyStash: Candy[]
 
-/'change the bank attribute values inside the class'/
-increaseSavings(int money, double interestSaving): void
-increaseDebt(int debt, double interestLoaning): void
-depositMoney(): void
-withdrawMoney(): void
-loanMoney(): void
-payOffLoan(): void
+/'change the bank attribute values inside the class -> void'/
++setMoney(): void
++getMoney(): Integer
++setLoan(): void
++getLoan():Integer
+/'-increaseSavings(int money, double interestSaving): void '//'autocall when day passes'//'
+-increaseDebt(int debt, double interestLoaning): void'/
+-increaseSavings(): void /'uses variables inside class as parameters, dont have to give arguments'/
+-increaseDebt(): void
++depositMoney(Integer money): void
++withdrawMoney(Integer money): Integer
++loanMoney(Integer money): Integer /'get loan int and give it to the player'/
++payOffLoan(Integer money): void
 }
 
 class Events {
-moneyStolen(): Integer
-findRandomCandy(): Candy
-hungryForRandomCandy(): Candy /'random, but more expensive = less likely'/
-findBigBag(): Integer /'only once per game, +50 inventory space, very rare 3%'/
-luckyDay(): Integer /'find money if you have debt, amount is debt * 2 and has 1% trigger rate, if no loan then do nothing'/
-nothingHappens(): void
++moneyStolen(): Integer
++findRandomCandy(): Candy
++hungryForRandomCandy(): Candy /'random, but more expensive = less likely'/
++findBigBag(): Integer /'only once per game, +50 inventory space, very rare 3%'/
++luckyDay(): Integer /'find money if you have debt, amount is debt * 2 and has 1% trigger rate, if no loan then do nothing'/
++nothingHappens(): void
 }
 
 class Days {
-maxDay: Integer = 30
-currentDays: Integer
-daysLeft: Integer = maxDay - currentDays
+-maxDay: Integer = 30
+-currentDays: Integer
+-daysLeft: Integer = maxDay - currentDays
 /'1x travel = 1 day'/
 
-endGame(): void
++getMaxTimeLimit(): Integer
++getTimeLeft(): Integer
++updateWithInterest(): void /'call bank function that updates savings and debts'/
++endGame(): void
 /'finalscore of profit - debts, but can't be smaller than 0'/
 /'-> calls quitGame() in the end'/
 }
 
 class GeneralFunctions {
-quitGame(): void
-cancel(): void
++quitGame(): void
++cancel(): void /'cancel action'/
 }
 
 class Player {
-cash: Integer  = 2000
-debt: Integer = 0
-inventoryMax: Integer = 100
-inventoryOccupied: Integer
-inventorySpaceLeft: Integer = inventoryMax - inventoryOccupied
-currentLocation: Location
-candyStash: Candy[]
+/'-playerName: String '//'for high score later'/
+-cash: Integer  = 2000
+-debt: Integer = 0
+-inventoryMax: Integer = 100
+-inventoryOccupied: Integer
+-inventorySpaceLeft: Integer = inventoryMax - inventoryOccupied
+-currentLocation: Location
+-candyStash: Candy[]
 
-travel(Location city1, Location city2): Integer /'price for distance travelled'/
-buy(Candy candy): void
-sell(Candy candy): void
-
-visitBank(): void /'only available if the city has a bank'/
++setCash(Integer money): void
++getCash(): Integer
++setLoan(Integer money): void
++getLoan(): Integer
++setInventoryMax(Integer increasedCapacity): void /'only happens when the player finds a bag in a rare event'/
++getMaxCapacity(): Integer
++setInventoryOccupied(Integer numberOfItems): void
++getCapacityLeft(): Integer
++travel(Location city1, Location city2): void /'price for distance travelled later called and will call events and ask for money'/
++buy(Candy candy): void /'add candy to the Candy list and substracts money from cash'/
++sell(Candy candy): void /'remove candy from Candy list and add money to cash'/
++visitBank(): void /'only available if the city has a bank'/
 }
 
 
 'Country instead of city
 class Germany {
-hasBank: Boolean = true
+-hasBank: Boolean = true
 /'Europäische Zentralbank (Frankfurt am Main)'/
 }
 
