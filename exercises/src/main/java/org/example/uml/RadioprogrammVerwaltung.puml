@@ -12,20 +12,20 @@ Radiosendung "*" -- "1..*" Redakteur
 Radiosendung "*" -- "1" Chefredakteur
 
 class Radiostation {
-Radiosendung[] wochentagSchema
-Radiosendung[] wochenendSchema
+wochentagSchema: Radiosendung[]
+wochenendSchema: Radiosendung[]
 }
 
 class Radiosendung {
-Double dauer
-String thema
+dauer: Double
+thema: String
 }
 
 class Mitarbeiter {
-String vorname
-String zuname
-Integer personalnummer
-Integer telefondurchwahl
+vorname: String
+zuname: String
+personalnummer: Integer
+telefondurchwahl: Integer
 }
 
 class Moderator {
@@ -35,7 +35,7 @@ class Redakteur {
 }
 
 class Chefredakteur {
-Integer mobiletelefonnummer
+mobiletelefonnummer: Integer
 }
 
 @enduml

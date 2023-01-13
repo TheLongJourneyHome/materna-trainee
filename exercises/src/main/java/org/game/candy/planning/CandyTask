@@ -1,0 +1,59 @@
+7.9     A Programming Task
+Good OO modeling isn’t easy and requires a lot of practice. Many
+developers start “modeling” in the code way too early, but doing so
+isn’t a good idea because you’ll often need rebuild the code, which
+ultimately costs time. Starting with a neat design makes sense, and
+you should be clear: “Which class has which responsibilities, and
+who talks to whom?” To document the design, UML diagrams are
+helpful, and for this purpose, we recommend reviewing
+documentation on the internet or picking up a book like UML
+Distilled: A Brief Guide to the Standard Object Modeling Language
+by Martin Fowler. Starting the design with boxes and lines on paper
+or on a whiteboard can also be extremely useful.
+In the previous two chapters, we laid the foundation for our
+Jawbreaker game, which you are welcome to finish. Let’s briefly
+summary some of its basic rules:
+
+
+- At the beginning, the player has $2,000 in cash and $0 in debt.
+
+- In the original game, drugs like cocaine, heroin, etc. were used.
+  Put in your favorite candy instead. The player can buy and sell
+  these in his city.
+
+- The prices of drugs ($) in the original game ranged in values, for
+  instance, cocaine costs 15,000–30,000, heroin costs 5,000–
+  14,000, and so on. Prices should fluctuate randomly, and drug
+  prices may decrease/increase as the player travels. Set your own
+  price ranges for the candies.
+
+- A player can carry a maximum of 100 products. (All products have
+  the same weight.)
+
+- A player can travel to various neighborhoods, such as the “Bronx,”
+  “Central Park,” “Manhattan,” and so on.
+- A player can’t travel to the city he is currently in.
+
+- One trip lasts one day. During the trip, random events may
+      happen, such as the following:
+    - The player’s money can be stolen by a stranger.
+    - During a trip, the player can find drugs now and then.
+    - Depending on the distance to the selected city, a trip may cost
+      more or less money.
+
+- In the Bronx—but only there—you can program 1) a bank for
+  deposits/withdrawals, 2) a stash for securing drugs, and 3) a loan
+  shark for lending money.
+    - The player can borrow money from the loan shark only if he has
+      no debts.
+    - Debt interest is 10% per day.
+    - Savings interest is 5.5% per day.
+
+- After 30 days, the game is over. Then, profits and debts are offset
+  to calculate a final score.
+
+
+You’re invited to add more rules to the game. A text interface can
+also be implemented using Java thanks to an open-source library
+like https://github.com/mabe02/lanterna.
+
