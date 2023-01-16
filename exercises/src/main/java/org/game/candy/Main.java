@@ -1,5 +1,10 @@
 package org.game.candy;
 
+import org.game.candy.program.Candy;
+import org.game.candy.program.Location;
+import org.game.candy.program.candies.Giotto;
+import org.game.candy.program.locations.Germany;
+
 public class Main {
     // Testing and Code Coverage
 /*
@@ -26,6 +31,12 @@ public class Main {
     You can configure the colors for the line coverage by go to settings->Editor->Code coverage and
     you can find the options to change the colors according to your preferences.*/
     public static void main(String[] args) {
+        // testing
+        Candy giotto = new Giotto();
+        giotto.setCandyName("giotto");
 
+        Location germany = new Germany();
+        germany.hasBank();
+//        System.out.println((int) (2*1.05));
     }
 }

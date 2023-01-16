@@ -38,7 +38,7 @@ Candy <|-- Skittles
 
 
 interface Tradable {
-+setPrice(int price): void
++setPrice(): void
 +getPrice(): Integer
 }
 
@@ -63,8 +63,8 @@ abstract class Candy {
 +setCandyType(CandyType candyType): void
 +getCandyType(): CandyType
 +setPopularity(String popularity): void
--setCandyPrice(String popularity): void
-+getCandyPrice(): Integer
+/'-setCandyPrice(): void
++getCandyPrice(): Integer'/
 +setPriceRange()
 }
 
@@ -74,57 +74,58 @@ abstract class Location {
 -position: String /'eu, na, asia'/
 '-candyPopularity: String /'{"popular", "normal", "unpopular"} -> different random price ranges'/
 -travelPrice: Integer /'price to travel to location, always updates and changes depending on players location'/
--hasBank: Boolean = false
+#hasBank: Boolean = false
 
-+setName(): void
++setName(String name): void
 +getName(): String
-+setPosition(): void
++setPosition(String position): void
 +getPosition(): String
 +setTravelPrice(String distance): void
 +getTravelPrice(): Integer /'greater distance = more expensive'/
-+getDistance(String location1, String location2): String /'check if eu && eu = close, eu && na = far...'/
++getDistance(String position1, String position2): String /'check if eu && eu = close, eu && na = far...'/
 +hasBank(): Boolean
 '+setCandyPrice(): void
 }
 
 class Bank {
--money: Integer = 0
--loan: Integer = 0 /'cant borrow more than 2 digits greater and only when loan/debt is 0'/
--interestSaving: Double = 0.05 /'daily'/
--interestLoaning: Double = 0.10 /'daily'/
+-money: Long = 0
+-loan: Long = 0 /'cant borrow more than 2 digits greater and only when loan/debt is 0'/
+-interestSavings: Double = 0.05 /'daily'/
+-interestLoan: Double = 0.10 /'daily'/
 -candyStash: Candy[]
 
 /'change the bank attribute values inside the class -> void'/
-+setMoney(): void
-+getMoney(): Integer
-+setLoan(): void
-+getLoan():Integer
-/'-increaseSavings(int money, double interestSaving): void '//'autocall when day passes'//'
--increaseDebt(int debt, double interestLoaning): void'/
--increaseSavings(): void /'uses variables inside class as parameters, dont have to give arguments'/
--increaseDebt(): void
-+depositMoney(Integer money): void
-+withdrawMoney(Integer money): Integer
-+loanMoney(Integer money): Integer /'get loan int and give it to the player'/
-+payOffLoan(Integer money): void
+'+setMoney(Long money): void
++getMoney(): Long
+'+setLoan(Long loan): void
++getLoan(): Long
+/'-increaseSavings(int money, double interestSaving): void '//'autocall when day passes'/
+/'-increaseDebt(int debt, double interestLoaning): void'/
++increaseSavings(): void /'uses variables inside class as parameters, dont have to give arguments'/
++increaseDebt(): void
++depositMoney(Long money): void
++withdrawMoney(Long money): Long
++loanMoney(Long money): Long /'get loan int and give it to the player'/
++payOffLoan(Long money): void
 }
 
 class Events {
-+moneyStolen(): Integer
++moneyStolen(): Long
 +findRandomCandy(): Candy
 +hungryForRandomCandy(): Candy /'random, but more expensive = less likely'/
 +findBigBag(): Integer /'only once per game, +50 inventory space, very rare 3%'/
-+luckyDay(): Integer /'find money if you have debt, amount is debt * 2 and has 1% trigger rate, if no loan then do nothing'/
++luckyDay(): Long /'find money if you have debt, amount is debt * 2 and has 1% trigger rate, if no loan then do nothing'/
 +nothingHappens(): void
 }
 
 class Days {
--maxDay: Integer = 30
+-maxDays: Integer = 30
 -currentDays: Integer
 -daysLeft: Integer = maxDay - currentDays
 /'1x travel = 1 day'/
 
 +getMaxTimeLimit(): Integer
++oneDayPassed(): void
 +getTimeLeft(): Integer
 +updateWithInterest(): void /'call bank function that updates savings and debts'/
 +endGame(): void
@@ -139,23 +140,29 @@ class GeneralFunctions {
 
 class Player {
 /'-playerName: String '//'for high score later'/
--cash: Integer  = 2000
--debt: Integer = 0
+-cash: Long  = 2000
+/'-debt: Long = 0 '//'just call bank variable to show it'/
 -inventoryMax: Integer = 100
 -inventoryOccupied: Integer
--inventorySpaceLeft: Integer = inventoryMax - inventoryOccupied
+-inventorySpaceLeft: Integer /'inventoryMax - inventoryOccupied'/
 -currentLocation: Location
 -candyStash: Candy[]
 
-+setCash(Integer money): void
++setCash(Long money): void
 +getCash(): Integer
-+setLoan(Integer money): void
++setLoan(Long money): void
 +getLoan(): Integer
 +setInventoryMax(Integer increasedCapacity): void /'only happens when the player finds a bag in a rare event'/
-+getMaxCapacity(): Integer
++getInventoryMax(): Integer
 +setInventoryOccupied(Integer numberOfItems): void
-+getCapacityLeft(): Integer
-+travel(Location city1, Location city2): void /'price for distance travelled later called and will call events and ask for money'/
++getInventoryOccupied(): Integer
++setInventorySpaceLeft(): void
++getInventorySpaceLeft(): Integer
++setCurrentLocation(Location currentLocation): void
++getCurrentLocation(): Location
++setCandyStash(Candy[] candies): void
+getCandyStash(): Candy[]
++travel(Location location): void /'price for distance travelled later called and will call events and ask for money'/
 +buy(Candy candy): void /'add candy to the Candy list and substracts money from cash'/
 +sell(Candy candy): void /'remove candy from Candy list and add money to cash'/
 +visitBank(): void /'only available if the city has a bank'/
