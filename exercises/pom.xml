@@ -41,6 +41,15 @@
             <version>0.4.8</version>
         </dependency>
 
+        <!--        Guava-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+            <!--            &lt;!&ndash; or, for Android: &ndash;&gt;
+                        <version>31.1-android</version>-->
+        </dependency>
+
     </dependencies>
 
 
